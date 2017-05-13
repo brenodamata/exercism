@@ -1,10 +1,4 @@
 defmodule Raindrops do
-  @factors %{
-    3 => "Pling",
-    5 => "Plang",
-    7 => "Plong"
-  }
-
   @doc """
   Returns a string based on raindrop factors.
 
@@ -15,16 +9,14 @@ defmodule Raindrops do
     just pass the number's digits straight through.
   """
   @spec convert(pos_integer) :: String.t
-  def convert(number) do
-    number |> convert(3, "")
-  end
+  def convert(number), do: print_out([sound(number, 3), sound(number, 5), sound(number, 7)], number)
 
-  defp convert(number, factor, ret) when factor > 7 do
-    case String.length(ret) do
-      0 -> number |> Integer.to_string
-      _ -> ret
-    end
-  end
-  defp convert(number, factor, ret) when rem(number, factor) != 0, do: convert(number, factor + 2, ret)
-  defp convert(number, factor, ret), do: convert(number, factor + 2, (ret <> @factors[factor]))
+  defp sound(n, 3) when rem(n, 3) == 0, do: "Pling"
+  defp sound(n, 5) when rem(n, 5) == 0, do: "Plang"
+  defp sound(n, 7) when rem(n, 7) == 0, do: "Plong"
+  defp sound(_, _), do: ""
+
+  defp print_out(["","",""], number), do: number |> Integer.to_string
+  defp print_out(sounds, _number), do: sounds |> Enum.join
+
 end
